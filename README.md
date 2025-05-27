@@ -4,7 +4,7 @@
   <img src="premoe_logo.png" alt="PreMoe Logo" width="400"/>
 </div>
 
-[![arXiv](https://img.shields.io/badge/arXiv-2501.00000-b31b1b.svg)](https://arxiv.org/abs/2505.17639)
+[![arXiv](https://img.shields.io/badge/arXiv-2505.17639-b31b1b.svg)](https://arxiv.org/abs/2505.17639)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
 Official implementation of **PreMoe: Lightening MoEs on Constrained Memory by Expert Pruning and Retrieval**
