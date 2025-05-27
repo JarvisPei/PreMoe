@@ -151,7 +151,7 @@ def main(ckpt_path, input_file, interactive, max_new_tokens, temperature):
         target_index = indices[0][0]
         target_perm = loaded_perm[target_index]
         importance_logits = torch.tensor(loaded_index.reconstruct(int(target_index)))
-        load_permute_prune_experts(model, importance_logits, target_perm, num2keep = 32)
+        load_permute_prune_experts(model, importance_logits, target_perm, ckpt_path, num2keep = 32)
 
         prompt_tokens = [tokenizer.apply_chat_template([{"role": "user", "content": prompt}], add_generation_prompt=True) for prompt in prompts]
         completion_tokens = generate(model, prompt_tokens, max_new_tokens, tokenizer.eos_token_id, temperature)

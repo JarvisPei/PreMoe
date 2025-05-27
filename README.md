@@ -165,7 +165,7 @@ You can adjust the number of experts to keep during retrieval:
 
 ```python
 # In retrieve_demo.py, modify the num2keep parameter
-load_permute_prune_experts(model, importance_logits, target_perm, num2keep=32)  # Keep 32 experts
+load_permute_prune_experts(model, importance_logits, target_perm, ckpt_path, num2keep=32)  # Keep 32 experts
 ```
 
 ### Memory Optimization

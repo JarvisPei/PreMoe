@@ -12,9 +12,9 @@ from tqdm import *
 
 
 @torch.no_grad()
-def load_layer_routed_experts(layer, load_indices):
+def load_layer_routed_experts(layer, load_indices, ckpt_path):
 
-    load_path = os.path.join("/mnt/sda6/hlzhen/DeepSeek-R1-partial", f'layer_{layer.layer_idx}.safetensors')
+    load_path = os.path.join(ckpt_path, f'layer_{layer.layer_idx}.safetensors')
 
     with safe_open(load_path, framework="pt", device='cpu') as f:
         for i, expert_idx in enumerate(load_indices):
@@ -35,7 +35,7 @@ def equip_experts(layer, load_indices):
 
         import json
         
-        config = "/mnt/sda3/hlzhen/DeepSeek-V3/inference/configs/config_671B.json"
+        config = "./config_671B.json"
     
         with open(config) as f:
             args = ModelArgs(**json.load(f))
@@ -45,7 +45,7 @@ def equip_experts(layer, load_indices):
         layer.ffn.experts = nn.ModuleList([Expert(args.dim, args.moe_inter_dim) if layer.ffn.experts_start_idx <= i < layer.ffn.experts_end_idx else None
                                       for i in range(need2keep)]) #need to modify the experts_end_idx for multi gpu
 
-        load_layer_routed_experts(layer, load_indices)
+        load_layer_routed_experts(layer, load_indices, ckpt_path)
 
 def collect_query_logits(model, input_ids):
 
@@ -114,7 +114,7 @@ def collect_query_logits(model, input_ids):
 import random
 
 @torch.no_grad()
-def load_permute_prune_experts(model, query_logits, perm, num2keep = 32):
+def load_permute_prune_experts(model, query_logits, perm, ckpt_path, num2keep = 32):
 
     first_layer_importance = torch.argsort(query_logits, descending=True)
     experts_to_keep = first_layer_importance[:num2keep].tolist()
@@ -134,7 +134,7 @@ def load_permute_prune_experts(model, query_logits, perm, num2keep = 32):
                 load_indices = [int(new_order[idx]) for idx in experts_to_keep]
 
             
-            equip_experts(layer, load_indices)
+            equip_experts(layer, load_indices, ckpt_path)
 
             original_gate = layer.ffn.gate
             gate_weights = original_gate.weight.data
