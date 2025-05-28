@@ -119,7 +119,7 @@ python retrieve_demo.py --ckpt-path $CKPT_PATH --input-file prompts.txt --max-ne
 ## File Structure
 
 ```
-PreMoe-release/
+PreMoe/
 ├── convert.py              # Model conversion and quantization
 ├── collect_demo.py         # Expert pattern collection demo
 ├── retrieve_demo.py        # Expert retrieval and inference demo
@@ -127,7 +127,7 @@ PreMoe-release/
 ├── datautils.py            # Dataset utilities
 ├── collect_utils.py        # Pattern collection utilities
 ├── partial_process.py      # Expert processing utilities
-├── quant_process.py        # Quantization utilities
+├── quant_process.py        # Quantization utilities (modified from gptfast)
 ├── kernel.py               # Custom CUDA kernels (from deepseek-v3)
 ├── config_671B.json        # Model configuration (from deepseek-v3)
 ├── run_convert.sh          # Conversion script
